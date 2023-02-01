@@ -1,7 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
+  console.log("swag");
+
+  fetch(
+    "http://api.openweathermap.org/geo/1.0/direct?q=London,GB&limit=5&appid=0b03cdb17a8af366b8d2a6f9f57c6c6e"
+  )
+    .then((res) => res.json())
+    .then((data) => console.log(data));
+
+  // fetch(
+  //   "https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=24d97d22302d104b7ea6b85767ffa7e4"
+  // )
+  //   .then((res) => res.json())
+  //   .then((data) => console.log(data));
+
   return (
     <div className="App">
       <header className="App-header">
