@@ -44,6 +44,7 @@ function App() {
     )
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setWeatherData({
           city: city.name,
           state: city.state,
@@ -55,6 +56,8 @@ function App() {
             temp_max: data.main.temp_max - 273.15,
             temp_min: data.main.temp_min - 273.15,
           },
+          humidity: data.main.humidity,
+          pressure: data.main.pressure,
           sunrise: data.sys.sunrise,
           sunset: data.sys.sunset,
           weather: data.weather,

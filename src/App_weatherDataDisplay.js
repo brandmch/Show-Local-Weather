@@ -21,7 +21,11 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
     visibility,
     weather,
     wind,
+    humidity,
+    pressure,
   } = weatherData;
+
+  //   console.log(weatherData);
 
   useEffect(() => {
     const func = CorF ? toFahrenheit : toCelcius;
@@ -49,6 +53,7 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
       <Typography>
         {city}, {state}, {country}
       </Typography>
+      <Divider sx={{ margin: 1 }} />
       <Typography>
         Current Temperature: {temperature.temp} {CorF ? "°F" : "°C"}
       </Typography>
@@ -61,11 +66,25 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
       <Typography>
         Today's Low: {temperature.temp_min} {CorF ? "°F" : "°C"}
       </Typography>
-      <Divider />
+      <Divider sx={{ margin: 1 }} />
       <Typography>Sunrise: {sunrise}</Typography>
       <Typography>Sunset: {sunset}</Typography>
+      <Divider sx={{ margin: 1 }} />
+      <Typography>Visibility: {visibility} meters</Typography>
+      <Divider sx={{ margin: 1 }} />
+      <Typography>Weather Mainly: {weather[0].main}</Typography>
+      <Typography>Weather: {weather[0].description}</Typography>
+      <Divider sx={{ margin: 1 }} />
+      <Typography>Wind: {wind.speed} m/s</Typography>
+      <Typography>Wind direction: {wind.speed} degrees</Typography>
+      <Divider sx={{ margin: 1 }} />
+      <Typography>Humidity: {humidity} %</Typography>
+      <Divider sx={{ margin: 1 }} />
+      <Typography>Pressure: {pressure} hPa</Typography>
     </Box>
   );
 };
 
 export default WeatherDataDisplay;
+
+// WEATHER ICON CODES https://openweathermap.org/weather-conditions
