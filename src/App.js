@@ -18,7 +18,7 @@ function App() {
 
   const getCities = () => {
     fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${cityInput}&limit=5&appid=0b03cdb17a8af366b8d2a6f9f57c6c6e`
+      `http://api.openweathermap.org/geo/1.0/direct?q=${cityInput}&limit=5&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -40,7 +40,7 @@ function App() {
 
   const getWeather = (city) => {
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=0b03cdb17a8af366b8d2a6f9f57c6c6e`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${process.env.REACT_APP_WEATHER_API_KEY}`
     )
       .then((res) => res.json())
       .then((data) => {
