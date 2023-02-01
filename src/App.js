@@ -5,10 +5,21 @@ function App() {
   console.log("swag");
 
   fetch(
-    "http://api.openweathermap.org/geo/1.0/direct?q=London,GB&limit=5&appid=0b03cdb17a8af366b8d2a6f9f57c6c6e"
+    "http://api.openweathermap.org/geo/1.0/direct?q=london,GB&limit=5&appid=0b03cdb17a8af366b8d2a6f9f57c6c6e"
   )
     .then((res) => res.json())
-    .then((data) => console.log(data));
+    .then((data) => {
+      const long = data[0].lon;
+      const lat = data[0].lat;
+      return [lat, long];
+    })
+    .then((data) =>
+      fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${data[0]}&lon=${data[1]}&appid=0b03cdb17a8af366b8d2a6f9f57c6c6e`
+      )
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+    );
 
   // fetch(
   //   "https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=24d97d22302d104b7ea6b85767ffa7e4"
