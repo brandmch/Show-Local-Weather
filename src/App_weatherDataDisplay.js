@@ -18,8 +18,6 @@ const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
     pressure,
   } = weatherData;
 
-  const sunriseStr = new Date(parseInt(`${sunrise}000`));
-  const sunsetStr = new Date(parseInt(`${sunset}000`));
   const weatherIcon = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
 
   return (
@@ -115,17 +113,13 @@ const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
             <Typography variant="h5">{weather[0].description}</Typography>
           </Box>
           <Box display="flex" marginTop={1}>
-            <Box marginRight={2} textAlign="center">
+            <Box marginRight={3} textAlign="center">
               <WbTwilightIcon />
-              <Typography>
-                {sunriseStr.getHours()}:{sunriseStr.getMinutes()}
-              </Typography>
+              <Typography>{sunrise}</Typography>
             </Box>
             <Box textAlign="center">
               <ModeNightIcon />
-              <Typography>
-                {sunsetStr.getHours()}:{sunsetStr.getMinutes()}
-              </Typography>
+              <Typography>{sunset}</Typography>
             </Box>
           </Box>
         </Box>
@@ -140,7 +134,10 @@ const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
               alignItems="center"
             >
               <Typography variant="h6">Wind</Typography>
-              <Typography>{wind.speed} m/s</Typography>
+              <Typography>
+                {wind.speed[CorF ? "imperial" : "metric"]}{" "}
+                {[CorF ? "mph" : "m/s"]}
+              </Typography>
             </Box>
             <Box
               flex={1}
@@ -149,7 +146,7 @@ const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
               alignItems="center"
             >
               <Typography variant="h6">Direction</Typography>
-              <Typography>{wind.speed}°</Typography>
+              <Typography>{wind.deg}°</Typography>
             </Box>
           </Box>
           <Box display="flex">

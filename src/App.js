@@ -17,6 +17,24 @@ const theme = createTheme({
   },
 });
 
+function convertTime(num) {
+  const newStr = new Date(parseInt(`${num}000`));
+  let hour = newStr.getHours();
+  let min = newStr.getMinutes();
+  let tag = "AM";
+
+  if (hour > 12) {
+    hour -= 12;
+    tag = "PM";
+  }
+
+  if (min < 10) {
+    min = `0${min}`;
+  }
+
+  return `${hour}:${min} ${tag}`;
+}
+
 function App() {
   const [cityInput, setCityInput] = useState("");
   const [returnedCities, setReturnedCities] = useState([]);
@@ -79,10 +97,16 @@ function App() {
           },
           humidity: data.main.humidity,
           pressure: data.main.pressure,
-          sunrise: data.sys.sunrise,
-          sunset: data.sys.sunset,
+          sunrise: convertTime(data.sys.sunrise),
+          sunset: convertTime(data.sys.sunset),
           weather: data.weather,
-          wind: data.wind,
+          wind: {
+            ...data.wind,
+            speed: {
+              metric: data.wind.speed,
+              imperial: (data.wind.speed / 0.44704).toFixed(1),
+            },
+          },
           visibility: data.visibility,
         });
         setLoading(false);
