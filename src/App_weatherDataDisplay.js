@@ -4,6 +4,17 @@ import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
 import useWindowSize from "./useWindowSize";
 
+function capitalize(str) {
+  return str
+    .split(" ")
+    .reduce((acc, curr) => {
+      let tempStr = curr.split("");
+      tempStr[0] = tempStr[0].toUpperCase();
+      return [...acc, tempStr.join("")];
+    }, [])
+    .join(" ");
+}
+
 const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
   const { width } = useWindowSize();
   let {
@@ -114,7 +125,9 @@ const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
         <Box>
           <Typography variant="h5">Now</Typography>
           <Typography variant="h4">{weather[0].main}</Typography>
-          <Typography variant="h5">{weather[0].description}</Typography>
+          <Typography variant="h5">
+            {capitalize(weather[0].description)}
+          </Typography>
         </Box>
         <Box display="flex" marginTop={1}>
           <Box marginRight={3} textAlign="center">
