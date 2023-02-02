@@ -119,6 +119,7 @@ const WeatherDataDisplay = ({ weatherData, CorF, setCorF, width }) => {
         flexDirection="column"
         alignItems="center"
         textAlign="center"
+        paddingRight={width > 905 ? 0 : 2}
       >
         <Box>
           <Typography variant="h5">Now</Typography>

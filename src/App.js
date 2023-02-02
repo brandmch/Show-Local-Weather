@@ -135,7 +135,10 @@ function App() {
             marginTop={2}
             textAlign={width > 850 ? "end" : "center"}
           >
-            <Typography variant="h1"> Weather</Typography>
+            <Typography variant="h1" sx={{ textShadow: "2px 2px 2px #998370" }}>
+              {" "}
+              Weather
+            </Typography>
           </Box>
 
           {width > 850 ? <Box flex={1} /> : null}
