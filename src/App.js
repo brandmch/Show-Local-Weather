@@ -22,6 +22,7 @@ function App() {
   const [returnedCities, setReturnedCities] = useState([]);
   const [weatherData, setWeatherData] = useState();
   const [loading, setLoading] = useState(false);
+  const [CorF, setCorF] = useState(true);
 
   const getCities = () => {
     fetch(
@@ -56,11 +57,25 @@ function App() {
           state: city.state,
           country: city.country,
           temperature: {
-            ...data.main,
-            feels_like: data.main.feels_like - 273.15,
-            temp: data.main.temp - 273.15,
-            temp_max: data.main.temp_max - 273.15,
-            temp_min: data.main.temp_min - 273.15,
+            celcius: {
+              feels_like: (data.main.feels_like - 273.15).toFixed(2),
+              temp: (data.main.temp - 273.15).toFixed(2),
+              temp_max: (data.main.temp_max - 273.15).toFixed(2),
+              temp_min: (data.main.temp_min - 273.15).toFixed(2),
+            },
+            fahrenheit: {
+              feels_like: (
+                (data.main.feels_like - 273.15) * (9 / 5) +
+                32
+              ).toFixed(1),
+              temp: ((data.main.temp - 273.15) * (9 / 5) + 32).toFixed(1),
+              temp_max: ((data.main.temp_max - 273.15) * (9 / 5) + 32).toFixed(
+                1
+              ),
+              temp_min: ((data.main.temp_min - 273.15) * (9 / 5) + 32).toFixed(
+                1
+              ),
+            },
           },
           humidity: data.main.humidity,
           pressure: data.main.pressure,
@@ -74,6 +89,7 @@ function App() {
       });
   };
 
+  console.log(weatherData);
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -135,11 +151,12 @@ function App() {
           <WeatherDataDisplay
             weatherData={weatherData}
             setWeatherData={setWeatherData}
+            CorF={CorF}
+            setCorF={setCorF}
           />
         )}
       </Box>
     </ThemeProvider>
   );
 }
-
 export default App;

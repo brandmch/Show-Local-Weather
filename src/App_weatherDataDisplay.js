@@ -4,16 +4,8 @@ import { Box, Switch, Typography, Divider, Paper } from "@mui/material";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
 
-function toCelcius(temp) {
-  return ((5 / 9) * (temp - 32)).toFixed(2);
-}
-function toFahrenheit(temp) {
-  return (temp * (9 / 5) + 32).toFixed(1);
-}
-
-const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
-  const [CorF, setCorF] = useState(true);
-  const {
+const WeatherDataDisplay = ({ weatherData, setWeatherData, CorF, setCorF }) => {
+  let {
     city,
     state,
     country,
@@ -31,23 +23,16 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
   const sunsetStr = new Date(parseInt(`${sunset}000`));
   const weatherIcon = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
 
-  useEffect(() => {
-    const func = CorF ? toFahrenheit : toCelcius;
-
-    if (weatherData) {
-      setWeatherData({
-        ...weatherData,
-        temperature: {
-          feels_like: func(temperature.feels_like),
-          temp: func(temperature.temp),
-          temp_max: func(temperature.temp_max),
-          temp_min: func(temperature.temp_min),
-        },
-      });
-    }
-  }, [CorF]);
   return (
-    <Paper sx={{ margin: 3, padding: 3, width: "80vw", alignSelf: "center" }}>
+    <Paper
+      sx={{
+        margin: 3,
+        padding: 3,
+        width: "80vw",
+        alignSelf: "center",
+        maxWidth: 850,
+      }}
+    >
       {/* Header */}
       <Box display="flex">
         <Typography variant="h3" flex={10}>
@@ -77,12 +62,15 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
             >
               <Typography variant="h5">Now</Typography>
               <Typography variant="h4">
-                {temperature.temp} {CorF ? "°F" : "°C"}
+                {temperature[CorF ? "fahrenheit" : "celcius"].temp}{" "}
+                {CorF ? "°F" : "°C"}
               </Typography>
             </Box>
 
             <Typography marginBottom={1}>
-              Feels Like: {temperature.feels_like} {CorF ? "°F" : "°C"}
+              Feels Like:{" "}
+              {temperature[CorF ? "fahrenheit" : "celcius"].feels_like}{" "}
+              {CorF ? "°F" : "°C"}
             </Typography>
             <Box display="flex">
               <Box
@@ -93,7 +81,8 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
               >
                 <Typography variant="h6">High</Typography>
                 <Typography>
-                  {temperature.temp_max} {CorF ? "°F" : "°C"}
+                  {temperature[CorF ? "fahrenheit" : "celcius"].temp_max}{" "}
+                  {CorF ? "°F" : "°C"}
                 </Typography>
               </Box>
               <Box
@@ -104,7 +93,8 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
               >
                 <Typography variant="h6">Low</Typography>
                 <Typography>
-                  {temperature.temp_min} {CorF ? "°F" : "°C"}
+                  {temperature[CorF ? "fahrenheit" : "celcius"].temp_min}{" "}
+                  {CorF ? "°F" : "°C"}
                 </Typography>
               </Box>
             </Box>
