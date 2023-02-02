@@ -129,9 +129,9 @@ function App() {
           marginTop={2}
           flexDirection={width > 850 ? "row" : "column"}
         >
-          <Box flex={4} />
+          <Box flex={10} />
           <Box
-            flex={8}
+            flex={10}
             marginTop={2}
             textAlign={width > 850 ? "end" : "center"}
           >
@@ -144,14 +144,14 @@ function App() {
           {width > 850 ? <Box flex={1} /> : null}
 
           <Box
-            flex={2}
+            flex={1}
             display="flex"
             flexDirection="column"
             padding={3}
             marginRight="auto"
             marginLeft="auto"
             minWidth={350}
-            maxWidth={100}
+            // maxWidth={100}
           >
             <TextField
               id="region"
@@ -193,7 +193,7 @@ function App() {
               Get Weather
             </Button>
           </Box>
-          <Box flex={4} />
+          <Box flex={10} />
         </Box>
         {loading && (
           <Skeleton
