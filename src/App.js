@@ -89,7 +89,6 @@ function App() {
       });
   };
 
-  console.log(weatherData);
   return (
     <ThemeProvider theme={theme}>
       <Box

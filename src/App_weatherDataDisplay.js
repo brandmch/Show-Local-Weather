@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
 import "./App.css";
 import { Box, Switch, Typography, Divider, Paper } from "@mui/material";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
 
-const WeatherDataDisplay = ({ weatherData, setWeatherData, CorF, setCorF }) => {
+const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
   let {
     city,
     state,
@@ -34,7 +33,7 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData, CorF, setCorF }) => {
       }}
     >
       {/* Header */}
-      <Box display="flex">
+      <Box display="flex" marginBottom={1}>
         <Typography variant="h3" flex={10}>
           {city}, {state}, {country}
         </Typography>
