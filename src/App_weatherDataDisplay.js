@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { Box, Switch, Typography, Divider } from "@mui/material";
+import { Box, Switch, Typography, Divider, Paper } from "@mui/material";
 
 function toCelcius(temp) {
   return ((5 / 9) * (temp - 32)).toFixed(2);
@@ -25,7 +25,11 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
     pressure,
   } = weatherData;
 
-  //   console.log(weatherData);
+  console.log(weatherData.weather[0].icon);
+
+  const sunriseStr = new Date(parseInt(`${sunrise}000`));
+  const sunsetStr = new Date(parseInt(`${sunset}000`));
+  const weatherIcon = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
 
   useEffect(() => {
     const func = CorF ? toFahrenheit : toCelcius;
@@ -43,14 +47,16 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
     }
   }, [CorF]);
   return (
-    <Box>
+    <Paper>
       <Box display="flex">
         <Typography>F</Typography>
         <Switch value={CorF} onChange={(e) => setCorF(!CorF)} />
         <Typography>C</Typography>
       </Box>
 
-      <Typography>
+      <img src={weatherIcon}></img>
+
+      <Typography variant="h3">
         {city}, {state}, {country}
       </Typography>
       <Divider sx={{ margin: 1 }} />
@@ -67,8 +73,8 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
         Today's Low: {temperature.temp_min} {CorF ? "°F" : "°C"}
       </Typography>
       <Divider sx={{ margin: 1 }} />
-      <Typography>Sunrise: {sunrise}</Typography>
-      <Typography>Sunset: {sunset}</Typography>
+      <Typography>Sunrise: {sunriseStr.toISOString()}</Typography>
+      <Typography>Sunset: {sunsetStr.toISOString()}</Typography>
       <Divider sx={{ margin: 1 }} />
       <Typography>Visibility: {visibility} meters</Typography>
       <Divider sx={{ margin: 1 }} />
@@ -81,7 +87,7 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
       <Typography>Humidity: {humidity} %</Typography>
       <Divider sx={{ margin: 1 }} />
       <Typography>Pressure: {pressure} hPa</Typography>
-    </Box>
+    </Paper>
   );
 };
 
