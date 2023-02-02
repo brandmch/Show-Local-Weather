@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Box, Switch, Typography, Divider, Paper } from "@mui/material";
+import WbTwilightIcon from "@mui/icons-material/WbTwilight";
+import ModeNightIcon from "@mui/icons-material/ModeNight";
 
 function toCelcius(temp) {
   return ((5 / 9) * (temp - 32)).toFixed(2);
@@ -25,8 +27,6 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
     pressure,
   } = weatherData;
 
-  console.log(weatherData.weather[0].icon);
-
   const sunriseStr = new Date(parseInt(`${sunrise}000`));
   const sunsetStr = new Date(parseInt(`${sunset}000`));
   const weatherIcon = `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
@@ -47,46 +47,153 @@ const WeatherDataDisplay = ({ weatherData, setWeatherData }) => {
     }
   }, [CorF]);
   return (
-    <Paper>
+    <Paper sx={{ margin: 3, padding: 3, width: "80vw", alignSelf: "center" }}>
+      {/* Header */}
       <Box display="flex">
-        <Typography>F</Typography>
-        <Switch value={CorF} onChange={(e) => setCorF(!CorF)} />
-        <Typography>C</Typography>
+        <Typography variant="h3" flex={10}>
+          {city}, {state}, {country}
+        </Typography>
+        <Box
+          display="flex"
+          flex={1}
+          justifyContent="flex-end"
+          alignItems="center"
+        >
+          <Typography>F</Typography>
+          <Switch value={CorF} onChange={(e) => setCorF(!CorF)} />
+          <Typography>C</Typography>
+        </Box>
       </Box>
 
-      <img src={weatherIcon}></img>
+      <Box display="flex" alignItems="center">
+        <Box display="flex" alignItems="center" flex={5}>
+          <img src={weatherIcon} style={{ width: 200, height: 200 }}></img>
+          <Box>
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              marginBottom={1}
+            >
+              <Typography variant="h5">Now</Typography>
+              <Typography variant="h4">
+                {temperature.temp} {CorF ? "°F" : "°C"}
+              </Typography>
+            </Box>
 
-      <Typography variant="h3">
-        {city}, {state}, {country}
-      </Typography>
-      <Divider sx={{ margin: 1 }} />
-      <Typography>
-        Current Temperature: {temperature.temp} {CorF ? "°F" : "°C"}
-      </Typography>
-      <Typography>
-        Feels Like: {temperature.feels_like} {CorF ? "°F" : "°C"}
-      </Typography>
-      <Typography>
-        Today's High: {temperature.temp_max} {CorF ? "°F" : "°C"}
-      </Typography>
-      <Typography>
-        Today's Low: {temperature.temp_min} {CorF ? "°F" : "°C"}
-      </Typography>
-      <Divider sx={{ margin: 1 }} />
-      <Typography>Sunrise: {sunriseStr.toISOString()}</Typography>
-      <Typography>Sunset: {sunsetStr.toISOString()}</Typography>
-      <Divider sx={{ margin: 1 }} />
-      <Typography>Visibility: {visibility} meters</Typography>
-      <Divider sx={{ margin: 1 }} />
-      <Typography>Weather Mainly: {weather[0].main}</Typography>
-      <Typography>Weather: {weather[0].description}</Typography>
-      <Divider sx={{ margin: 1 }} />
-      <Typography>Wind: {wind.speed} m/s</Typography>
-      <Typography>Wind direction: {wind.speed} degrees</Typography>
-      <Divider sx={{ margin: 1 }} />
-      <Typography>Humidity: {humidity} %</Typography>
-      <Divider sx={{ margin: 1 }} />
-      <Typography>Pressure: {pressure} hPa</Typography>
+            <Typography marginBottom={1}>
+              Feels Like: {temperature.feels_like} {CorF ? "°F" : "°C"}
+            </Typography>
+            <Box display="flex">
+              <Box
+                flex={1}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+              >
+                <Typography variant="h6">High</Typography>
+                <Typography>
+                  {temperature.temp_max} {CorF ? "°F" : "°C"}
+                </Typography>
+              </Box>
+              <Box
+                flex={1}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+              >
+                <Typography variant="h6">Low</Typography>
+                <Typography>
+                  {temperature.temp_min} {CorF ? "°F" : "°C"}
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+
+        <Divider orientation="vertical" flexItem />
+
+        <Box
+          flex={3}
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          textAlign="center"
+        >
+          <Box>
+            <Typography variant="h5">Now</Typography>
+            <Typography variant="h4">{weather[0].main}</Typography>
+            <Typography variant="h5">{weather[0].description}</Typography>
+          </Box>
+          <Box display="flex" marginTop={1}>
+            <Box marginRight={2} textAlign="center">
+              <WbTwilightIcon />
+              <Typography>
+                {sunriseStr.getHours()}:{sunriseStr.getMinutes()}
+              </Typography>
+            </Box>
+            <Box textAlign="center">
+              <ModeNightIcon />
+              <Typography>
+                {sunsetStr.getHours()}:{sunsetStr.getMinutes()}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+        <Divider orientation="vertical" flexItem />
+
+        <Box flex={3} marginLeft={2}>
+          <Box display="flex">
+            <Box
+              flex={1}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <Typography variant="h6">Wind</Typography>
+              <Typography>{wind.speed} m/s</Typography>
+            </Box>
+            <Box
+              flex={1}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <Typography variant="h6">Direction</Typography>
+              <Typography>{wind.speed}°</Typography>
+            </Box>
+          </Box>
+          <Box display="flex">
+            <Box
+              flex={1}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <Typography variant="h6">Humidity</Typography>
+              <Typography>{humidity}%</Typography>
+            </Box>
+            <Box
+              flex={1}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+            >
+              <Typography variant="h6">Visibility</Typography>
+              <Typography>{visibility / 100}%</Typography>
+            </Box>
+          </Box>
+          <Box
+            flex={1}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+          >
+            <Typography variant="h6">Pressure</Typography>
+            <Typography>{pressure} hPa</Typography>
+          </Box>
+        </Box>
+      </Box>
     </Paper>
   );
 };

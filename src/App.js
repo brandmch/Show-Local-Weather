@@ -9,6 +9,13 @@ import {
   CircularProgress,
 } from "@mui/material";
 import WeatherDataDisplay from "./App_weatherDataDisplay";
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: ["kanit"],
+  },
+});
 
 function App() {
   const [cityInput, setCityInput] = useState("");
@@ -68,48 +75,61 @@ function App() {
   };
 
   return (
-    <Box
-      height={"100vh"}
-      display="flex"
-      justifyContent="center"
-      backgroundColor="dimgray"
-    >
-      <Box display="flex" flexDirection="column" marginTop={10}>
-        <TextField
-          id="region"
-          label="Enter City"
-          variant="filled"
-          value={cityInput}
-          onChange={(e) => setCityInput(e.target.value)}
-        />
-        <Paper>
-          {returnedCities.map((curr) => {
-            return (
-              <Box
-                onClick={() => {
-                  getWeather(curr);
-                  setLoading(true);
-                  setCityInput("");
-                  setReturnedCities([]);
-                }}
-                sx={{
-                  "&:hover": {
-                    backgroundColor: "primary.main",
-                    color: "#FFFFFF",
-                  },
-                }}
-                key={`${curr.lon}, ${curr.lat}`}
-              >
-                <Typography>
-                  {curr.name}, {curr.state}, {curr.country}
-                </Typography>
-              </Box>
-            );
-          })}
-        </Paper>
-        <Button variant="contained" onClick={getCities}>
-          Get Weather
-        </Button>
+    <ThemeProvider theme={theme}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        backgroundColor="dimgray"
+        minHeight={"100vh"}
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          width={300}
+          marginLeft="auto"
+          marginRight="auto"
+          padding={3}
+        >
+          <TextField
+            id="region"
+            label="Enter City"
+            variant="filled"
+            value={cityInput}
+            onChange={(e) => setCityInput(e.target.value)}
+          />
+          <Paper>
+            {returnedCities.map((curr) => {
+              return (
+                <Box
+                  onClick={() => {
+                    getWeather(curr);
+                    setLoading(true);
+                    setCityInput("");
+                    setReturnedCities([]);
+                  }}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "primary.main",
+                      color: "#FFFFFF",
+                    },
+                  }}
+                  key={`${curr.lon}, ${curr.lat}`}
+                >
+                  <Typography>
+                    {curr.name}, {curr.state}, {curr.country}
+                  </Typography>
+                </Box>
+              );
+            })}
+          </Paper>
+          <Button
+            variant="contained"
+            onClick={getCities}
+            sx={{ marginTop: 2, marginBottom: 2 }}
+          >
+            Get Weather
+          </Button>
+        </Box>
         {loading && <CircularProgress />}
         {weatherData && (
           <WeatherDataDisplay
@@ -118,7 +138,7 @@ function App() {
           />
         )}
       </Box>
-    </Box>
+    </ThemeProvider>
   );
 }
 
