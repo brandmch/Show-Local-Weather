@@ -2,7 +2,6 @@ import "./App.css";
 import { Box, Switch, Typography, Divider, Paper } from "@mui/material";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 import ModeNightIcon from "@mui/icons-material/ModeNight";
-import useWindowSize from "./useWindowSize";
 
 function capitalize(str) {
   return str
@@ -15,8 +14,7 @@ function capitalize(str) {
     .join(" ");
 }
 
-const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
-  const { width } = useWindowSize();
+const WeatherDataDisplay = ({ weatherData, CorF, setCorF, width }) => {
   let {
     city,
     state,
@@ -43,10 +41,10 @@ const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
           display="flex"
           flex={1}
           justifyContent="flex-end"
-          alignItems="center"
+          alignItems={width > 905 ? "center" : "start"}
         >
           <Typography>F</Typography>
-          <Switch value={CorF} onChange={(e) => setCorF(!CorF)} />
+          <Switch checked={!CorF} onChange={(e) => setCorF(!CorF)} />
           <Typography>C</Typography>
         </Box>
       </Box>
@@ -63,7 +61,7 @@ const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
         marginRight={width > 905 ? null : 2}
       >
         <img src={weatherIcon} style={{ width: 200, height: 200 }}></img>
-        <Box>
+        <Box marginLeft={width > 905 ? null : 3}>
           <Box
             display="flex"
             flexDirection="column"
@@ -205,6 +203,7 @@ const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
         width: "80vw",
         alignSelf: "center",
         maxWidth: 850,
+        boxShadow: "2px 2px 1px 1px #CDB096",
       }}
     >
       <Header />
@@ -223,6 +222,7 @@ const WeatherDataDisplay = ({ weatherData, CorF, setCorF }) => {
         alignSelf: "center",
         padding: 3,
         marginBottom: 3,
+        boxShadow: "2px 2px 1px 1px #CDB096",
       }}
     >
       <Header />

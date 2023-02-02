@@ -6,10 +6,11 @@ import {
   Paper,
   TextField,
   Typography,
-  CircularProgress,
+  Skeleton,
 } from "@mui/material";
 import WeatherDataDisplay from "./App_weatherDataDisplay";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import useWindowSize from "./useWindowSize";
 
 const theme = createTheme({
   typography: {
@@ -41,6 +42,8 @@ function App() {
   const [weatherData, setWeatherData] = useState();
   const [loading, setLoading] = useState(false);
   const [CorF, setCorF] = useState(true);
+
+  const { width } = useWindowSize();
 
   const getCities = () => {
     fetch(
@@ -118,64 +121,92 @@ function App() {
       <Box
         display="flex"
         flexDirection="column"
-        backgroundColor="dimgray"
+        backgroundColor="#FFD1A8"
         minHeight={"100vh"}
       >
         <Box
           display="flex"
-          flexDirection="column"
-          width={300}
-          marginLeft="auto"
-          marginRight="auto"
-          padding={3}
+          marginTop={2}
+          flexDirection={width > 850 ? "row" : "column"}
         >
-          <TextField
-            id="region"
-            label="Enter City"
-            variant="filled"
-            value={cityInput}
-            onChange={(e) => setCityInput(e.target.value)}
-          />
-          <Paper>
-            {returnedCities.map((curr) => {
-              return (
-                <Box
-                  onClick={() => {
-                    getWeather(curr);
-                    setLoading(true);
-                    setCityInput("");
-                    setReturnedCities([]);
-                  }}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "primary.main",
-                      color: "#FFFFFF",
-                    },
-                  }}
-                  key={`${curr.lon}, ${curr.lat}`}
-                >
-                  <Typography>
-                    {curr.name}, {curr.state}, {curr.country}
-                  </Typography>
-                </Box>
-              );
-            })}
-          </Paper>
-          <Button
-            variant="contained"
-            onClick={getCities}
-            sx={{ marginTop: 2, marginBottom: 2 }}
+          <Box flex={4} />
+          <Box
+            flex={8}
+            marginTop={2}
+            textAlign={width > 850 ? "end" : "center"}
           >
-            Get Weather
-          </Button>
+            <Typography variant="h1"> Weather</Typography>
+          </Box>
+
+          {width > 850 ? <Box flex={1} /> : null}
+
+          <Box
+            flex={2}
+            display="flex"
+            flexDirection="column"
+            padding={3}
+            marginRight="auto"
+            marginLeft="auto"
+            minWidth={350}
+            maxWidth={100}
+          >
+            <TextField
+              id="region"
+              label="Enter City"
+              variant="filled"
+              value={cityInput}
+              onChange={(e) => setCityInput(e.target.value)}
+            />
+            <Paper>
+              {returnedCities.map((curr) => {
+                return (
+                  <Box
+                    onClick={() => {
+                      getWeather(curr);
+                      setLoading(true);
+                      setCityInput("");
+                      setReturnedCities([]);
+                    }}
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: "primary.main",
+                        color: "#FFFFFF",
+                      },
+                    }}
+                    key={`${curr.lon}, ${curr.lat}`}
+                  >
+                    <Typography>
+                      {curr.name}, {curr.state}, {curr.country}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Paper>
+            <Button
+              variant="contained"
+              onClick={getCities}
+              sx={{ marginTop: 2, marginBottom: 2 }}
+            >
+              Get Weather
+            </Button>
+          </Box>
+          <Box flex={4} />
         </Box>
-        {loading && <CircularProgress />}
-        {weatherData && (
+        {loading && (
+          <Skeleton
+            variant="rectangular"
+            width="80vw"
+            sx={{ alignSelf: "center", margin: 3 }}
+            height={300}
+          />
+        )}
+        {weatherData && !loading && (
           <WeatherDataDisplay
             weatherData={weatherData}
             setWeatherData={setWeatherData}
             CorF={CorF}
             setCorF={setCorF}
+            width={width}
           />
         )}
       </Box>
